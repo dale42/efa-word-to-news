@@ -1,7 +1,6 @@
 $(document).foundation();
 
 const fileWidget = document.querySelector('#file-widget');
-const iFrame = document.querySelector('iframe#input-iframe');
 const htmlCodeContainer = document.querySelector('#html-code');
 const htmlDisplayContainer = document.querySelector('#html-display');
 
@@ -9,13 +8,25 @@ fileWidget.addEventListener('change', function (event) {
   if (event.target.files[0] !== null) {
     const fileReader = new FileReader;
     fileReader.onload = loadHtml;
-    fileReader.readAsText(event.target.files[0]);
+    fileReader.readAsText(event.target.files[0], 'windows-1252');
   }
 });
+
+  // if (readEvent.target.result.match(/<head[\s\S]*>[\s\S]*<meta.*?charset=windows-1252.*?>/im)) {
+  //   console.log('- is windows 1252')
+  //   // This has a Windows 1252 character set, convert it
+  //   for (let i = 0; i < readEvent.target.result.length; i++) {
+  //     htmlDoc += convert1252ToUTF(readEvent.target.result[i]);
+  //   }
+  // } else {
+  //   htmlDoc = readEvent.target.result;
+  // }
 
 
 function loadHtml(readEvent) {
   console.log('- LOAD HTML');
+  let htmlDoc = '';
+
   const bodyHtml = /<body.*?>([\s\S]*)<\/body>/gmi.exec(readEvent.target.result);
   if (bodyHtml === null) {
     // ToDo: display an error message
