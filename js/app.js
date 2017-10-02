@@ -6,27 +6,43 @@ const htmlDisplayContainer = document.querySelector('#html-display');
 
 fileWidget.addEventListener('change', function (event) {
   if (event.target.files[0] !== null) {
-    const fileReader = new FileReader;
-    fileReader.onload = loadHtml;
-    fileReader.readAsText(event.target.files[0], 'windows-1252');
+    loadFile(event.target.files[0]);
   }
 });
 
-  // if (readEvent.target.result.match(/<head[\s\S]*>[\s\S]*<meta.*?charset=windows-1252.*?>/im)) {
-  //   console.log('- is windows 1252')
-  //   // This has a Windows 1252 character set, convert it
-  //   for (let i = 0; i < readEvent.target.result.length; i++) {
-  //     htmlDoc += convert1252ToUTF(readEvent.target.result[i]);
-  //   }
-  // } else {
-  //   htmlDoc = readEvent.target.result;
-  // }
+/*
+ * Loading as a binary file then working out the character-set would technically
+ * be the most elegant solution. However, according to the docs, read as binary
+ * is not recommended for production and there are no libraries to manage all of
+ * intricacies of handling multibyte characters sets from binary. For simplicity,
+ * Windows 1252 is assumed on initial read. If validation of Windows 1252 can't
+ * be determined from the header, the file is reloaded as UTF-8 as a fallback.
+ * For the purposes of this application, that's good enough. If another character
+ * encoding is required it can be added.
+ */
 
 
-function loadHtml(readEvent) {
-  console.log('- LOAD HTML');
-  let htmlDoc = '';
+function loadFile(file, charSet = 'windows-1252') {
+  const fileReader = new FileReader;
+  fileReader.onload = readFile.bind(null, charSet, file);
+  fileReader.readAsText(file, charSet);
+}
 
+
+function readFile(charSet, file, readEvent) {
+  const isWindows1252 = readEvent.target.result.match(/<head[\s\S]*>[\s\S]*<meta.*?charset=windows-1252.*?>/im);
+
+  if (charSet === 'windows-1252' && isWindows1252) {
+    processHtml(readEvent);
+  } else if (charSet === 'UTF-8') {
+    processHtml(readEvent);
+  } else {
+    loadFile(file, 'UTF-8');
+  }
+}
+
+
+function processHtml(readEvent) {
   const bodyHtml = /<body.*?>([\s\S]*)<\/body>/gmi.exec(readEvent.target.result);
   if (bodyHtml === null) {
     // ToDo: display an error message
