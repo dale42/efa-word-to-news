@@ -106,6 +106,11 @@ function clean(domNode) {
       domNode.remove();
     }
 
+  } else if (['br'].indexOf(nodeName) > -1) {
+    // If this is a tag that should never has children, just clean it up
+    domNode.removeAttribute('class');
+    domNode.removeAttribute('style');
+
   } else if (nodeName === '#text') {
     domNode.nodeValue = domNode.nodeValue.replace(/ *$/g, '');
   }
