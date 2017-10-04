@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foundation for Sites</title>
+    <title>EFA MSWord to News Formatter</title>
     <link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/app.css">
   </head>
@@ -12,7 +12,7 @@
     <div class="grid-container">
       <div class="grid-x grid-padding-x">
         <div class="large-12 cell">
-          <h1>Each For All - News Cleaner</h1>
+          <h1>Each For All - MSWord to News Formatter</h1>
         </div>
       </div>
 
@@ -24,13 +24,32 @@
           </div>
         </div>
       </div>
+    </div>
 
+    <div id="instructions" class="grid-x grid-padding-x">
+      <div class="large-12 cell">
+        <div class="callout secondary">
+          <p>
+            This is a "quick &amp; dirty" utility that transforms an MS Word document saved as HTML
+            into clean HTML that can be pasted into a WordPress post.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="message-container" class="grid-x grid-padding-x">
+      <div class="large-12 cell">
+        <div id="message-area" class="callout warning text-center"></div>
+      </div>
+    </div>
+
+    <div id="results-container" class="grid-container">
       <div class="grid-x grid-padding-x">
         <div class="large-12 cell">
-        <ul class="tabs" data-tabs id="results-tabs">
-          <li class="tabs-title is-active"><a data-tabs-target="html-display-tab" aria-selected="true">Document</a></li>
-          <li class="tabs-title"><a data-tabs-target="html-code-tab">HTML</a></li>
-        </ul>
+          <ul class="tabs" data-tabs id="results-tabs">
+            <li class="tabs-title is-active"><a data-tabs-target="html-display-tab" aria-selected="true">Document</a></li>
+            <li class="tabs-title"><a data-tabs-target="html-code-tab">HTML</a></li>
+          </ul>
         </div>
       </div>
 
@@ -48,6 +67,7 @@
           </div>
         </div>
       </div>
+
     </div>
 
     <script src="js/vendor/jquery.js"></script>

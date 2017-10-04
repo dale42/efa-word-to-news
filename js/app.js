@@ -43,10 +43,19 @@ function readFile(charSet, file, readEvent) {
 
 
 function processHtml(readEvent) {
+  const resultsContainer = document.querySelector('#results-container');
+  const messageContainer = document.querySelector('#message-container');
+  const messageArea      = document.querySelector('#message-area');
+  const instructions     = document.querySelector('#instructions');
+
+  instructions.classList.add('hide');
+  resultsContainer.classList.remove('open');
+  messageContainer.classList.remove('display');
+
   const bodyHtml = /<body.*?>([\s\S]*)<\/body>/gmi.exec(readEvent.target.result);
   if (bodyHtml === null) {
-    // ToDo: display an error message
-    console.log('BODY TEXT NOT FOUND');
+    messageArea.innerText = 'The content of this file is not a HTML document or not in an understood format';
+    messageContainer.classList.add('display');
     return;
   }
   htmlDisplayContainer.innerHTML = bodyHtml[1];
@@ -54,6 +63,7 @@ function processHtml(readEvent) {
   let htmlAsText = htmlDisplayContainer.innerHTML.trim();
   htmlAsText = htmlAsText.replace(/\n{2,}/gm, '\n\n');
   htmlCodeContainer.innerText = htmlAsText;
+  resultsContainer.classList.add('open');
 }
 
 

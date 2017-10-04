@@ -1,0 +1,19 @@
+#results-container {
+  display: none;
+}
+
+#results-container.open {
+  display: block;
+}
+
+#message-container {
+  display: none;
+}
+
+#message-container.display {
+  display: block;
+}
+
+#instructions.hide {
+  display: none;
+}
